@@ -18,6 +18,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -117,9 +121,9 @@ fun FrontContent(text: String, index: Int) {
     }
 
     val cardDescription = when (index) {
-        0 -> "Criatura - Arquero elfo. Hacen 2 puntos de daño a la criatura atacante o bloqueadora objetivo."
-        1 -> "Criatura Legendaria - Noble elfo. Al comienzo del combate en tu turno, si otro Elfo entró en el campo de batalla bajo tu control este turno, comenzando contigo cada jugador vota dominio o ruleta."
-        2 -> "Criatura - Arquero elfo. Hacen 2 puntos de daño a la criatura atacante o bloqueadora objetivo."
+        0 -> "Criatura - Arquero elfo. "
+        1 -> "Criatura Legendaria - Noble elfo. "
+        2 -> "Criatura - Arquero elfo. "
         3 -> "Criatura - Guerrero elfo"
         4 -> "Criatura Legendaria - Noble elfo"
         5 -> "Criatura Legendaria - Druida elfo"
@@ -129,6 +133,20 @@ fun FrontContent(text: String, index: Int) {
         9 -> "Criatura - Druida elfo"
         else -> "Descripción "
     }
+
+    // Array de textos adicionales para cada tarjeta
+    val additionalTexts = arrayOf(
+        "Hacen 2 puntos de daño a la criatura atacante o bloqueadora objetivo.",
+        "Al comienzo del combate en tu turno, si otro Elfo entró en el campo de batalla bajo tu control este turno, comenzando contigo cada jugador vota dominio o ruleta.",
+        "Hacen 2 puntos de daño a la criatura atacante o bloqueadora objetivo.",
+        "Texto adicional para Perfecta arrogante",
+        "Texto adicional para Lathril",
+        "Texto adicional para Gilanra",
+        "Texto adicional para Sueños desenfrenados",
+        "Texto adicional para Elfo hoja solar",
+        "Texto adicional para Elfos de Llanowar",
+        "Texto adicional para Elfa llamaclanes"
+    )
 
     val titleFont = Font(R.font.kodemono, FontWeight.Bold)
     val descriptionFont = Font(R.font.anta_regular, FontWeight.Normal)
@@ -146,6 +164,9 @@ fun FrontContent(text: String, index: Int) {
         color = Color.Black,
         fontFamily = descriptionFont.toFontFamily()
     )
+
+    // Estado para controlar la visibilidad del texto adicional
+    var isAdditionalTextVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -184,9 +205,30 @@ fun FrontContent(text: String, index: Int) {
                 .fillMaxWidth()
                 .padding(8.dp)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Mostrar el texto adicional si es visible
+        if (isAdditionalTextVisible) {
+            Text(
+                text = additionalTexts.getOrNull(index) ?: "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Cambiar la visibilidad del texto adicional al hacer clic en el IconButton
+        IconButton(onClick = { isAdditionalTextVisible = !isAdditionalTextVisible }) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Expandir"
+            )
+        }
     }
 }
-
 @Composable
 fun BackContent() {
     Box(
